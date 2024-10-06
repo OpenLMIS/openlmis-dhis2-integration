@@ -1,30 +1,33 @@
 #%RAML 0.8
 ---
-title: OpenLMIS Template API
+title: OpenLMIS SELV3 DHIS2 Integration
 version: "@version@"
 baseUri: "@baseUrl@"
 protocols: [ HTTP, HTTPS ]
 
 documentation:
 - title: Getting Started
-  content: Welcome to the OpenLMIS template-service documentation. This minimal API is intended for illustrative purposes.
+  content: Welcome to the OpenLMIS SELV3 DHIS2 Integration Service documentation.
 
 schemas:
 - auditLogEntry: !include schemas/auditLogEntry.json
-
 - auditLogEntryArray: |
     {
         "type": "array",
         "items": { "type": "object", "$ref": "schemas/auditLogEntry.json" }
     }
-
-
 - localizedErrorResponse: !include schemas/localizedErrorResponse.json
-
 - version: !include schemas/version.json
 
-- widget: !include schemas/widget.json
-- widgetPage: !include schemas/widgetPage.json
+- server: !include schemas/server.json
+- serverPage: !include schemas/serverPage.json
+- dataset: !include schemas/dataset.json
+- datasetPage: !include schemas/datasetPage.json
+- dataElement: !include schemas/dataElement.json
+- dataElementPage: !include schemas/dataElementPage.json
+- dhisDatasetList: !include schemas/dhisDatasetList.json
+- periodMapping: !include schemas/periodMapping.json
+- periodMappingPage: !include schemas/periodMappingPage.json
 
 traits:
 - secured:
@@ -131,7 +134,7 @@ resourceTypes:
         type: string
         required: true
         repeat: false
-/template:
+/dhis2:
   displayName: Version
   get:
     description: Get version
@@ -144,41 +147,57 @@ resourceTypes:
             schema: version
 
 /api:
-  /widgets:
-    displayName: widgets
+  /serverConfiguration:
+    displayName: serverConfiguration
     get:
       is: [ secured, paginated, sorted ]
-      description: Get all widgets that match the given parameters.
+      description: Get all servers.
       responses:
         200:
           headers:
             Keep-Alive:
           body:
             application/json:
-              schema: widgetPage
+              schema: serverPage
         401:
           headers:
             Keep-Alive:
           body:
             application/json:
+        403:
+          headers:
+            Keep-Alive:
+          body:
+            application/json:
+              schema: localizedErrorResponse
     post:
       is: [ secured ]
-      description: Creates given widget if possible.
+      description: Add new server.
       body:
         application/json:
-          schema: widget
+          schema: server
       responses:
         201:
           headers:
             Keep-Alive:
           body:
             application/json:
-              schema: widget
+              schema: server
+        400:
+          body:
+            application/json:
+              schema: localizedErrorResponse
         401:
           headers:
             Keep-Alive:
           body:
             application/json:
+        403:
+          headers:
+            Keep-Alive:
+          body:
+            application/json:
+              schema: localizedErrorResponse
     /{id}:
       uriParameters:
         id:
@@ -188,14 +207,14 @@ resourceTypes:
           repeat: false
       get:
         is: [ secured ]
-        description: Get chosen widget.
+        description: Get server configuration.
         responses:
           200:
             headers:
               Keep-Alive:
             body:
               application/json:
-                schema: widget
+                schema: server
           404:
             headers:
               Keep-Alive:
@@ -207,19 +226,25 @@ resourceTypes:
               Keep-Alive:
             body:
               application/json:
+          403:
+            headers:
+              Keep-Alive:
+            body:
+              application/json:
+                schema: localizedErrorResponse
       put:
         is: [ secured ]
-        description: Update existing widget.
+        description: Change server parameters.
         body:
           application/json:
-            schema: widget
+            schema: server
         responses:
           200:
             headers:
               Keep-Alive:
             body:
               application/json:
-                schema: widget
+                schema: server
           400:
             body:
               application/json:
@@ -229,16 +254,24 @@ resourceTypes:
               Keep-Alive:
             body:
               application/json:
+          403:
+            headers:
+              Keep-Alive:
+            body:
+              application/json:
+                schema: localizedErrorResponse
+          404:
+            body:
+              application/json:
+                schema: localizedErrorResponse
       delete:
         is: [ secured ]
-        description: "[AVOID USING] Completely removes widget. This action is not recoverable."
+        description: Completely removes server configuration. This action is not recoverable.
         responses:
           204:
             headers:
               Keep-Alive:
-          404:
-            headers:
-              Keep-Alive:
+          400:
             body:
               application/json:
                 schema: localizedErrorResponse
@@ -247,5 +280,902 @@ resourceTypes:
               Keep-Alive:
             body:
               application/json:
-    /{id}/auditLog:
-      type: instanceAuditLog
+          403:
+            headers:
+              Keep-Alive:
+            body:
+              application/json:
+                schema: localizedErrorResponse
+          404:
+            headers:
+              Keep-Alive:
+            body:
+              application/json:
+                schema: localizedErrorResponse
+      /datasets:
+        displayName: datasets
+        get:
+          is: [ secured, paginated, sorted ]
+          description: Get all datasets.
+          responses:
+            200:
+              headers:
+                Keep-Alive:
+              body:
+                application/json:
+                  schema: datasetPage
+            401:
+              headers:
+                Keep-Alive:
+              body:
+                application/json:
+            403:
+              headers:
+                Keep-Alive:
+              body:
+                application/json:
+                  schema: localizedErrorResponse
+        post:
+          is: [ secured ]
+          description: Add new dataset.
+          body:
+            application/json:
+              schema: dataset
+          responses:
+            201:
+              headers:
+                Keep-Alive:
+              body:
+                application/json:
+                  schema: dataset
+            400:
+              body:
+                application/json:
+                  schema: localizedErrorResponse
+            401:
+              headers:
+                Keep-Alive:
+              body:
+                application/json:
+            403:
+              headers:
+                Keep-Alive:
+              body:
+                application/json:
+                  schema: localizedErrorResponse
+        /{id}:
+          uriParameters:
+            id:
+              displayName: id
+              type: string
+              required: true
+              repeat: false
+          get:
+            is: [ secured ]
+            description: Get dataset configuration.
+            responses:
+              200:
+                headers:
+                  Keep-Alive:
+                body:
+                  application/json:
+                    schema: dataset
+              404:
+                headers:
+                  Keep-Alive:
+                body:
+                  application/json:
+                    schema: localizedErrorResponse
+              401:
+                headers:
+                  Keep-Alive:
+                body:
+                  application/json:
+              403:
+                headers:
+                  Keep-Alive:
+                body:
+                  application/json:
+                    schema: localizedErrorResponse
+          put:
+            is: [ secured ]
+            description: Change dataset parameters.
+            body:
+              application/json:
+                schema: dataset
+            responses:
+              200:
+                headers:
+                  Keep-Alive:
+                body:
+                  application/json:
+                    schema: dataset
+              400:
+                body:
+                  application/json:
+                    schema: localizedErrorResponse
+              401:
+                headers:
+                  Keep-Alive:
+                body:
+                  application/json:
+              403:
+                headers:
+                  Keep-Alive:
+                body:
+                  application/json:
+                    schema: localizedErrorResponse
+              404:
+                body:
+                  application/json:
+                    schema: localizedErrorResponse
+          delete:
+            is: [ secured ]
+            description: Completely removes dataset. This action is not recoverable.
+            responses:
+              204:
+                headers:
+                  Keep-Alive:
+              400:
+                body:
+                  application/json:
+                    schema: localizedErrorResponse
+              401:
+                headers:
+                  Keep-Alive:
+                body:
+                  application/json:
+              403:
+                headers:
+                  Keep-Alive:
+                body:
+                  application/json:
+                    schema: localizedErrorResponse
+              404:
+                headers:
+                  Keep-Alive:
+                body:
+                  application/json:
+                    schema: localizedErrorResponse
+          /periodMappings:
+            displayName: periodMappings
+            get:
+              is: [ secured, paginated, sorted ]
+              description: Get all period mappings.
+              responses:
+                200:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                      schema: periodMappingPage
+                401:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                403:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
+            post:
+              is: [ secured ]
+              description: Add new period mapping.
+              body:
+                application/json:
+                  schema: periodMapping
+              responses:
+                201:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                      schema: periodMapping
+                400:
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
+                401:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                403:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
+            /{id}:
+              uriParameters:
+                id:
+                  displayName: id
+                  type: string
+                  required: true
+                  repeat: false
+              get:
+                is: [ secured ]
+                description: Get period mapping.
+                responses:
+                  200:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                        schema: periodMapping
+                  404:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                        schema: localizedErrorResponse
+                  401:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                  403:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                        schema: localizedErrorResponse
+              put:
+                is: [ secured ]
+                description: Change period mapping parameters.
+                body:
+                  application/json:
+                    schema: periodMapping
+                responses:
+                  200:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                        schema: periodMapping
+                  400:
+                    body:
+                      application/json:
+                        schema: localizedErrorResponse
+                  401:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                  403:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                        schema: localizedErrorResponse
+                  404:
+                    body:
+                      application/json:
+                        schema: localizedErrorResponse
+              delete:
+                is: [ secured ]
+                description: Completely removes period mapping. This action is not recoverable.
+                responses:
+                  204:
+                    headers:
+                      Keep-Alive:
+                  400:
+                    body:
+                      application/json:
+                        schema: localizedErrorResponse
+                  401:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                  403:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                  404:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                        schema: localizedErrorResponse
+              /auditLog:
+                description: This represents the audit log for all <<resourcePathName|!singularize>> resources.
+                get:
+                  description: Returns all or part of the resource's audit log
+                  # Although /auditLog endpoints support "page" and "number" query parameters for pagination,
+                  # they don’t return the response body and set of pagination-related values expected to be
+                  # returned for core domain resources.
+                  is: [ paginated ]
+                  queryParameters:
+                    author:
+                      displayName: author
+                      description: Name of the author of changes which should be returned. By default, all changes are returned regardless of author.
+                      type: string
+                      required: false
+                      repeat: false
+                    changedPropertyName:
+                      displayName: changedPropertyName
+                      description: The name of the property about which changes should be returned. If null or empty, changes associated with any and all properties are returned.
+                      type: string
+                      required: false
+                      repeat: false
+                  responses:
+                    200:
+                      headers:
+                        Keep-Alive:
+                      body:
+                        application/json:
+                          schema: auditLogEntryArray
+                          example: |
+                            [
+                              {
+                                "changeType": "ValueChange",
+                                "globalId": {
+                                  "entity": "org.openlmis.SomeClass",
+                                  "cdoId": 1
+                                },
+                                "commitMetadata": {
+                                  "author": "SomeUserName",
+                                  "properties": [],
+                                  "commitDate": "2016-12-17T19:39:57.621",
+                                  "id": 3
+                                },
+                                "property": "PropertyName",
+                                "left": "OldValue",
+                                "right": "NewValue"
+                              }
+                            ]
+                    404:
+                      description: The specified <<resourcePathName|!singularize>> does not exist.
+                      headers:
+                        Keep-Alive:
+                      body:
+                        application/json:
+                          schema: localizedErrorResponse
+                    401:
+                      headers:
+                        Keep-Alive:
+                      body:
+                        application/json:
+                    403:
+                      headers:
+                        Keep-Alive:
+                      body:
+                        application/json:
+          /elements:
+            displayName: dataElements
+            get:
+              is: [ secured, paginated, sorted ]
+              description: Get all data elements.
+              responses:
+                200:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                      schema: dataElementPage
+                401:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                403:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
+            post:
+              is: [ secured ]
+              description: Add new data element.
+              body:
+                application/json:
+                  schema: dataElement
+              responses:
+                201:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                      schema: dataElement
+                400:
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
+                401:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                403:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
+            /{id}:
+              uriParameters:
+                id:
+                  displayName: id
+                  type: string
+                  required: true
+                  repeat: false
+              get:
+                is: [ secured ]
+                description: Get data element configuration.
+                responses:
+                  200:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                        schema: dataElement
+                  404:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                        schema: localizedErrorResponse
+                  401:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                  403:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                        schema: localizedErrorResponse
+              put:
+                is: [ secured ]
+                description: Change data element parameters.
+                body:
+                  application/json:
+                    schema: dataElement
+                responses:
+                  200:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                        schema: dataElement
+                  400:
+                    body:
+                      application/json:
+                        schema: localizedErrorResponse
+                  401:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                  403:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                        schema: localizedErrorResponse
+                  404:
+                    body:
+                      application/json:
+                        schema: localizedErrorResponse
+              delete:
+                is: [ secured ]
+                description: Completely removes data element. This action is not recoverable.
+                responses:
+                  204:
+                    headers:
+                      Keep-Alive:
+                  400:
+                    body:
+                      application/json:
+                        schema: localizedErrorResponse
+                  401:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                  403:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                        schema: localizedErrorResponse
+                  404:
+                    headers:
+                      Keep-Alive:
+                    body:
+                      application/json:
+                        schema: localizedErrorResponse
+              /auditLog:
+                description: This represents the audit log for all <<resourcePathName|!singularize>> resources.
+                get:
+                  description: Returns all or part of the resource's audit log
+                  # Although /auditLog endpoints support "page" and "number" query parameters for pagination,
+                  # they don’t return the response body and set of pagination-related values expected to be
+                  # returned for core domain resources.
+                  is: [ paginated ]
+                  queryParameters:
+                    author:
+                      displayName: author
+                      description: Name of the author of changes which should be returned. By default, all changes are returned regardless of author.
+                      type: string
+                      required: false
+                      repeat: false
+                    changedPropertyName:
+                      displayName: changedPropertyName
+                      description: The name of the property about which changes should be returned. If null or empty, changes associated with any and all properties are returned.
+                      type: string
+                      required: false
+                      repeat: false
+                  responses:
+                    200:
+                      headers:
+                        Keep-Alive:
+                      body:
+                        application/json:
+                          schema: auditLogEntryArray
+                          example: |
+                            [
+                              {
+                                "changeType": "ValueChange",
+                                "globalId": {
+                                  "entity": "org.openlmis.SomeClass",
+                                  "cdoId": 1
+                                },
+                                "commitMetadata": {
+                                  "author": "SomeUserName",
+                                  "properties": [],
+                                  "commitDate": "2016-12-17T19:39:57.621",
+                                  "id": 3
+                                },
+                                "property": "PropertyName",
+                                "left": "OldValue",
+                                "right": "NewValue"
+                              }
+                            ]
+                    404:
+                      description: The specified <<resourcePathName|!singularize>> does not exist.
+                      headers:
+                        Keep-Alive:
+                      body:
+                        application/json:
+                          schema: localizedErrorResponse
+                    403:
+                      headers:
+                        Keep-Alive:
+                      body:
+                        application/json:
+                          schema: localizedErrorResponse
+                    401:
+                      headers:
+                        Keep-Alive:
+                      body:
+                        application/json:
+          /dhisElements:
+            displayName: dhisDataElements
+            get:
+              is: [ secured, paginated, sorted ]
+              description: Get all dhis data elements.
+              responses:
+                200:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                      schema: dhisDataElementPage
+                401:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                403:
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
+          /elementsAndCombos:
+            displayName: elementsAndCombos
+            get:
+              is: [ secured, paginated, sorted ]
+              description: Get all concatenated data elements and category option combos.
+              responses:
+                200:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                      schema: dhisDataElementComboPage.json
+                401:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                403:
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
+                404:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
+          /auditLog:
+            description: This represents the audit log for all <<resourcePathName|!singularize>> resources.
+            get:
+              description: Returns all or part of the resource's audit log
+              # Although /auditLog endpoints support "page" and "number" query parameters for pagination,
+              # they don’t return the response body and set of pagination-related values expected to be
+              # returned for core domain resources.
+              is: [ paginated ]
+              queryParameters:
+                author:
+                  displayName: author
+                  description: Name of the author of changes which should be returned. By default, all changes are returned regardless of author.
+                  type: string
+                  required: false
+                  repeat: false
+                changedPropertyName:
+                  displayName: changedPropertyName
+                  description: The name of the property about which changes should be returned. If null or empty, changes associated with any and all properties are returned.
+                  type: string
+                  required: false
+                  repeat: false
+              responses:
+                200:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                      schema: auditLogEntryArray
+                      example: |
+                        [
+                          {
+                            "changeType": "ValueChange",
+                            "globalId": {
+                              "entity": "org.openlmis.SomeClass",
+                              "cdoId": 1
+                            },
+                            "commitMetadata": {
+                              "author": "SomeUserName",
+                              "properties": [],
+                              "commitDate": "2016-12-17T19:39:57.621",
+                              "id": 3
+                            },
+                            "property": "PropertyName",
+                            "left": "OldValue",
+                            "right": "NewValue"
+                          }
+                        ]
+                404:
+                  description: The specified <<resourcePathName|!singularize>> does not exist.
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
+                403:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
+                401:
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+      /dhisDatasets:
+        displayName: dhis datasets
+        get:
+          is: [ secured ]
+          description: Get all dhis datasets.
+          responses:
+            200:
+              headers:
+                Keep-Alive:
+              body:
+                application/json:
+                  schema: dhisDatasetList
+            401:
+              headers:
+                Keep-Alive:
+              body:
+                application/json:
+            403:
+              headers:
+                Keep-Alive:
+              body:
+                application/json:
+                  schema: localizedErrorResponse
+        /{id}:
+          uriParameters:
+            id:
+              displayName: id
+              type: string
+              required: true
+              repeat: false
+          get:
+            is: [ secured ]
+            description: Get period mapping.
+            responses:
+              200:
+                headers:
+                  Keep-Alive:
+                body:
+                  application/json:
+                    schema: periodMapping
+              404:
+                headers:
+                  Keep-Alive:
+                body:
+                  application/json:
+                    schema: localizedErrorResponse
+              401:
+                headers:
+                  Keep-Alive:
+                body:
+                  application/json:
+              403:
+                headers:
+                  Keep-Alive:
+                body:
+                  application/json:
+                    schema: localizedErrorResponse
+      /dhisPeriodTypes:
+        displayName: dhis period types
+        get:
+          is: [ secured ]
+          description: Get all dhis period types.
+          responses:
+            200:
+              headers:
+                Keep-Alive:
+              body:
+                application/json:
+                  schema: dhisPeriodTypeList
+            401:
+              headers:
+                Keep-Alive:
+              body:
+                application/json:
+            403:
+              body:
+                application/json:
+                  schema: localizedErrorResponse
+      /categoryOptionCombos:
+        displayName: categoryOptionCombos
+        get:
+          is: [ secured, paginated, sorted ]
+          description: Get all category option combos.
+          responses:
+            200:
+              headers:
+                Keep-Alive:
+              body:
+                application/json:
+                  schema: dhisCategoryOptionComboPage.json
+            401:
+              headers:
+                Keep-Alive:
+              body:
+                application/json:
+            403:
+              body:
+                application/json:
+                  schema: localizedErrorResponse
+            404:
+              headers:
+                Keep-Alive:
+              body:
+                application/json:
+                  schema: localizedErrorResponse
+      /auditLog:
+        description: This represents the audit log for all <<resourcePathName|!singularize>> resources.
+        get:
+          description: Returns all or part of the resource's audit log
+          # Although /auditLog endpoints support "page" and "number" query parameters for pagination,
+          # they don’t return the response body and set of pagination-related values expected to be
+          # returned for core domain resources.
+          is: [ paginated ]
+          queryParameters:
+            author:
+              displayName: author
+              description: Name of the author of changes which should be returned. By default, all changes are returned regardless of author.
+              type: string
+              required: false
+              repeat: false
+            changedPropertyName:
+              displayName: changedPropertyName
+              description: The name of the property about which changes should be returned. If null or empty, changes associated with any and all properties are returned.
+              type: string
+              required: false
+              repeat: false
+          responses:
+            200:
+              headers:
+                Keep-Alive:
+              body:
+                application/json:
+                  schema: auditLogEntryArray
+                  example: |
+                    [
+                      {
+                        "changeType": "ValueChange",
+                        "globalId": {
+                          "entity": "org.openlmis.SomeClass",
+                          "cdoId": 1
+                        },
+                        "commitMetadata": {
+                          "author": "SomeUserName",
+                          "properties": [],
+                          "commitDate": "2016-12-17T19:39:57.621",
+                          "id": 3
+                        },
+                        "property": "PropertyName",
+                        "left": "OldValue",
+                        "right": "NewValue"
+                      }
+                    ]
+            403:
+              description: The specified <<resourcePathName|!singularize>> is forbidden.
+              headers:
+                Keep-Alive:
+              body:
+                application/json:
+                  schema: localizedErrorResponse
+            404:
+              description: The specified <<resourcePathName|!singularize>> does not exist.
+              headers:
+                Keep-Alive:
+              body:
+                application/json:
+                  schema: localizedErrorResponse
+            401:
+              headers:
+                Keep-Alive:
+              body:
+                application/json:
+  /execute:
+    post:
+      is: [ secured ]
+      description: Run execution
+      queryParameters:
+        serverId:
+          displayName: Server ID
+          description: Retrieves schedule with certain serverId.
+          type: string
+          required: false
+          repeat: false
+        datasetId:
+          displayName: Dataset ID
+          description: Retrieves schedule with certain datasetId.
+          type: string
+          required: false
+          repeat: false
+      body:
+        application/json:
+      responses:
+        201:
+          headers:
+            Keep-Alive:
+          body:
+            application/json:
+        400:
+          body:
+            application/json:
+              schema: localizedErrorResponse
+        401:
+          headers:
+            Keep-Alive:
+          body:
+            application/json:
+        403:
+          headers:
+            Keep-Alive:
+          body:
+            application/json:
+              schema: localizedErrorResponse
