@@ -24,7 +24,7 @@ import org.springframework.http.HttpHeaders;
 
 public final class RequestHeaders {
 
-  private Map<String, String> headers = Maps.newHashMap();
+  private final Map<String, String> headers = Maps.newHashMap();
 
   private RequestHeaders() {
   }

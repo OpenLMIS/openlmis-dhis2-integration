@@ -72,13 +72,13 @@ public class WorkflowController {
     ...
     
     if (someError)
-      throw new ValidationException(...);
+      throw new ValidationException(...)
     
     ...
     
     return new WorkflowDraft(...);
   }
-}
+
 ```
 
 The exception handler that's called by Spring should the `WorkflowController` throw 

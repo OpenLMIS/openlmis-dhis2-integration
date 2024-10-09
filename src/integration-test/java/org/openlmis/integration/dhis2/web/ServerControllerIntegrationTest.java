@@ -61,14 +61,14 @@ public class ServerControllerIntegrationTest extends BaseWebIntegrationTest {
 
   private static final String NAME = "name";
 
-  private Server server = new ServerDataBuilder().build();
-  private ServerDto serverDto = ServerDto.newInstance(server);
+  private final Server server = new ServerDataBuilder().build();
+  private final ServerDto serverDto = ServerDto.newInstance(server);
 
-  private GlobalId globalId = new UnboundedValueObjectId(Server.class.getSimpleName());
-  private ValueChange change = new ValueChange(globalId, NAME, "name1", "name2");
+  private final GlobalId globalId = new UnboundedValueObjectId(Server.class.getSimpleName());
+  private final ValueChange change = new ValueChange(globalId, NAME, "name1", "name2");
 
-  private CommitId commitId = new CommitId(1, 0);
-  private CommitMetadata commitMetadata = new CommitMetadata(
+  private final CommitId commitId = new CommitId(1, 0);
+  private final CommitMetadata commitMetadata = new CommitMetadata(
           "admin", Maps.newHashMap(), LocalDateTime.now(), commitId);
 
   @Before

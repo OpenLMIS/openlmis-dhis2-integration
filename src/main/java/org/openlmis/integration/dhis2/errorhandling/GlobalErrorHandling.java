@@ -106,8 +106,7 @@ public class GlobalErrorHandling extends AbstractErrorHandling {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
   public Message.LocalizedMessage handleDataIntegrityViolation(DataIntegrityViolationException ex) {
-    if (ex.getCause() instanceof ConstraintViolationException) {
-      ConstraintViolationException cause = (ConstraintViolationException) ex.getCause();
+    if (ex.getCause() instanceof ConstraintViolationException cause) {
       String messageKey = CONSTRAINT_MAP.get(cause.getConstraintName());
       if (messageKey != null) {
         return getLocalizedMessage(new Message(messageKey));

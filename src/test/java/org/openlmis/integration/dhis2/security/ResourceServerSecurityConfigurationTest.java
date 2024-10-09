@@ -32,7 +32,7 @@ public class ResourceServerSecurityConfigurationTest {
   private static final String[] ALLOWED_ORIGINS = new String[]{"http://test.openlmis.org"};
   private static final String[] ALLOWED_METHODS = new String[]{"GET"};
 
-  private ResourceServerSecurityConfiguration configuration =
+  private final ResourceServerSecurityConfiguration configuration =
       new ResourceServerSecurityConfiguration();
 
   @Test

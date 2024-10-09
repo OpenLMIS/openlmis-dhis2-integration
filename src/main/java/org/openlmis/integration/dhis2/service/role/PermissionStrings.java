@@ -44,7 +44,7 @@ public class PermissionStrings {
 
   public class Handler implements Supplier<Set<PermissionStringDto>> {
 
-    private UUID userId;
+    private final UUID userId;
     private Set<PermissionStringDto> permissionStrings;
     private String etag;
 

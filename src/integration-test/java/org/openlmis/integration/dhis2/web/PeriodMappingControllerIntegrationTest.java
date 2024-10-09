@@ -65,18 +65,18 @@ public class PeriodMappingControllerIntegrationTest extends BaseWebIntegrationTe
   private static final String DATASET_ID = "datasetId";
   private static final String NAME = "name";
 
-  private Server server = new ServerDataBuilder().build();
-  private Dataset dataset = new DatasetDataBuilder().withServer(server).build();
-  private PeriodMapping periodMapping = new PeriodMappingDataBuilder().withDataset(dataset).build();
+  private final Server server = new ServerDataBuilder().build();
+  private final Dataset dataset = new DatasetDataBuilder().withServer(server).build();
+  private final PeriodMapping periodMapping = new PeriodMappingDataBuilder().withDataset(dataset).build();
 
-  private DatasetDto datasetDto = DatasetDto.newInstance(dataset);
-  private PeriodMappingDto periodMappingDto = PeriodMappingDto.newInstance(periodMapping);
+  private final DatasetDto datasetDto = DatasetDto.newInstance(dataset);
+  private final PeriodMappingDto periodMappingDto = PeriodMappingDto.newInstance(periodMapping);
 
-  private GlobalId globalId = new UnboundedValueObjectId(PeriodMapping.class.getSimpleName());
-  private ValueChange change = new ValueChange(globalId, NAME, "name1", "name2");
+  private final GlobalId globalId = new UnboundedValueObjectId(PeriodMapping.class.getSimpleName());
+  private final ValueChange change = new ValueChange(globalId, NAME, "name1", "name2");
 
-  private CommitId commitId = new CommitId(1, 0);
-  private CommitMetadata commitMetadata = new CommitMetadata(
+  private final CommitId commitId = new CommitId(1, 0);
+  private final CommitMetadata commitMetadata = new CommitMetadata(
           "admin", Maps.newHashMap(), LocalDateTime.now(), commitId);
 
   @Before

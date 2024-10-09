@@ -70,8 +70,8 @@ public class ExportSchemaFlywayCallback extends BaseCallback {
   }
 
   private static class StreamGobbler implements Runnable {
-    private InputStream inputStream;
-    private Consumer<String> consumer;
+    private final InputStream inputStream;
+    private final Consumer<String> consumer;
 
     StreamGobbler(InputStream inputStream, Consumer<String> consumer) {
       this.inputStream = inputStream;

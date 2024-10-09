@@ -96,8 +96,7 @@ public class DhisElementComboController extends BaseController {
     for (DhisCategoryOptionCombo combo : categoryOptionCombos) {
       for (DhisDataElement element : dhisDataElements) {
         DhisElementCombo dhisElementCombo = new DhisElementCombo(
-                new StringBuilder(element.getName()).append(" - ").append(combo.getDisplayName())
-                        .toString(),
+            element.getName() + " - " + combo.getDisplayName(),
                 element.getName(),
                 combo.getDisplayName()
         );

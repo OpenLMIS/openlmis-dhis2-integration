@@ -26,8 +26,8 @@ import org.springframework.context.MessageSource;
  */
 public class Message {
 
-  private String key;
-  private Object[] params;
+  private final String key;
+  private final Object[] params;
 
   public Message(String messageKey) {
     this(messageKey, (Object[]) null);
@@ -70,11 +70,10 @@ public class Message {
       return true;
     }
 
-    if (!(other instanceof Message)) {
+    if (!(other instanceof Message otherMessage)) {
       return false;
     }
 
-    Message otherMessage = (Message) other;
     return this.key.equals(otherMessage.key);
   }
 
@@ -88,10 +87,10 @@ public class Message {
    */
   public final class LocalizedMessage {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String messageKey;
+    private final String messageKey;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String message;
+    private final String message;
 
     /**
      * Creates new LocalizedMessage based on given String.

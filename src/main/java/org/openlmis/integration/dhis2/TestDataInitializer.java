@@ -45,7 +45,7 @@ public class TestDataInitializer implements CommandLineRunner {
   @Value(value = DEMO_DATA_PATH + "element.csv")
   private Resource dataElementResource;
 
-  private Resource2Db loader;
+  private final Resource2Db loader;
   
   @Autowired
   public TestDataInitializer(JdbcTemplate template) {

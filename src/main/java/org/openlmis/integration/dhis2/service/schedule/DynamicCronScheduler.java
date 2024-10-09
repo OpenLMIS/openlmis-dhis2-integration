@@ -41,7 +41,7 @@ public class DynamicCronScheduler {
   private static final Logger LOGGER = LoggerFactory.getLogger(DynamicCronScheduler.class);
   private static final String FACILITY_REFRESH_CRON = "0 20 * * * *";
 
-  private Map<UUID, ScheduledFuture<?>> scheduledProcesses = new HashMap<>();
+  private final Map<UUID, ScheduledFuture<?>> scheduledProcesses = new HashMap<>();
 
   @Autowired
   private TaskScheduler taskScheduler;

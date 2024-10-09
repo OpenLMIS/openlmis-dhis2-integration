@@ -49,7 +49,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @EnableResourceServer
 public class ResourceServerSecurityConfiguration implements ResourceServerConfigurer {
 
-  private TokenExtractor tokenExtractor = new BearerTokenExtractor();
+  private final TokenExtractor tokenExtractor = new BearerTokenExtractor();
 
   @Value("${auth.resourceId}")
   private String resourceId;

@@ -64,11 +64,9 @@ public abstract class BaseParameterizedTypeReference<T> extends ParameterizedTyp
 
   @Override
   public boolean equals(Object other) {
-    if (!(other instanceof BaseParameterizedTypeReference)) {
+    if (!(other instanceof BaseParameterizedTypeReference dptr)) {
       return false;
     }
-
-    BaseParameterizedTypeReference dptr = (BaseParameterizedTypeReference) other;
 
     return getType().equals(dptr.getType());
   }

@@ -69,7 +69,7 @@ public class AuditLogInitializerTest {
 
   private AuditLogInitializer auditLogInitializer;
 
-  private Map<String, Object> repositoryMap = new HashMap<>();
+  private final Map<String, Object> repositoryMap = new HashMap<>();
 
   @Before
   public void setUp() {

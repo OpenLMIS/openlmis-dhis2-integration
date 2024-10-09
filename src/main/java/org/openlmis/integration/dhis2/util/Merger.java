@@ -37,7 +37,7 @@ import org.springframework.data.domain.PageRequest;
 @SuppressWarnings("PMD.TooManyMethods")
 public abstract class Merger<T> {
 
-  private List<T> elements;
+  private final List<T> elements;
   private Supplier<T> defaultValue;
 
   private Merger(List<T> elements) {

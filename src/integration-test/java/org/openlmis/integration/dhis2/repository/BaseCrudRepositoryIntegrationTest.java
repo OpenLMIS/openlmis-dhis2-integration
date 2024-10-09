@@ -42,7 +42,7 @@ public abstract class BaseCrudRepositoryIntegrationTest<T extends BaseEntity> {
    */
   public abstract T generateInstance();
 
-  private AtomicInteger instanceNumber = new AtomicInteger(0);
+  private final AtomicInteger instanceNumber = new AtomicInteger(0);
 
   public int getNextInstanceNumber() {
     return this.instanceNumber.incrementAndGet();

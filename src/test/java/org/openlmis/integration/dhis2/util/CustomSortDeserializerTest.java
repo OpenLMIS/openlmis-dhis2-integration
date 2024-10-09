@@ -29,7 +29,7 @@ import org.springframework.data.domain.Sort;
 
 public class CustomSortDeserializerTest {
 
-  private ObjectMapper mapper = new ObjectMapper();
+  private final ObjectMapper mapper = new ObjectMapper();
 
   @Test
   public void shouldDeserializeArraySort() throws IOException {

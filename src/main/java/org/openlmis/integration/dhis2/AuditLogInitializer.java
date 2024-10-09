@@ -51,8 +51,8 @@ public class AuditLogInitializer implements CommandLineRunner {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(AuditLogInitializer.class);
 
-  private ApplicationContext applicationContext;
-  private Javers javers;
+  private final ApplicationContext applicationContext;
+  private final Javers javers;
 
   @Autowired
   public AuditLogInitializer(ApplicationContext applicationContext, Javers javers) {
