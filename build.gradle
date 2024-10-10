@@ -53,6 +53,8 @@ dependencies {
     compile 'javax.enterprise.concurrent:javax.enterprise.concurrent-api:1.1'
     compile 'com.google.code.findbugs:jsr305:3.0.2'
 
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
     testCompile "junit:junit"
     testCompile "org.springframework.boot:spring-boot-starter-test"
     testCompile "org.springframework:spring-test"
@@ -67,6 +69,7 @@ dependencies {
 
     testCompile "nl.jqno.equalsverifier:equalsverifier:2.4"
     testCompile "be.joengenduvel.java.verifiers:to-string:1.0.2"
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 }
 
 idea {
@@ -77,10 +80,10 @@ idea {
             xmlFile.asNode().component
                     .find { it.@name == 'CompilerConfiguration' }['annotationProcessing'][0]
                     .replaceNode {
-                annotationProcessing {
-                    profile(default: true, name: 'Default', useClasspath: 'true', enabled: true)
-                }
-            }
+                        annotationProcessing {
+                            profile(default: true, name: 'Default', useClasspath: 'true', enabled: true)
+                        }
+                    }
         }
     }
 }
@@ -165,7 +168,7 @@ jacocoTestReport {
         csv.enabled false
     }
 
-    additionalSourceDirs.setFrom files(sourceSets.main.allJava.srcDirs)
+    additionalSourceDirs(files(sourceSets.main.allJava.srcDirs))
 }
 
 checkstyle {
@@ -200,11 +203,10 @@ project.tasks["sonarqube"].dependsOn integrationTest
 
 pmd {
     toolVersion = '5.8.1'
-    consoleOutput = true
+    consoleOutput= true
     ignoreFailures = false
     ruleSetFiles = files("config/pmd/ruleset.xml")
     reportsDir = file("build/reports/pmd")
-    incrementalAnalysis = false
 }
 
 tasks.withType(Pmd){

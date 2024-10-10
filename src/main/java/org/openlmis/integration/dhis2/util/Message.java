@@ -70,10 +70,11 @@ public class Message {
       return true;
     }
 
-    if (!(other instanceof Message otherMessage)) {
+    if (!(other instanceof Message)) {
       return false;
     }
 
+    Message otherMessage = (Message) other;
     return this.key.equals(otherMessage.key);
   }
 

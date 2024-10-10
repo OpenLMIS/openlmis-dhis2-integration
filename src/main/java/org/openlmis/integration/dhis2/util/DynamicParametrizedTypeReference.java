@@ -67,10 +67,10 @@ public class DynamicParametrizedTypeReference<T>
 
   @Override
   public boolean equals(Object other) {
-    if (!(other instanceof DynamicParametrizedTypeReference dptr)) {
+    if (!(other instanceof DynamicParametrizedTypeReference)) {
       return false;
     }
-
+    DynamicParametrizedTypeReference dptr = (DynamicParametrizedTypeReference) other;
     return getType().equals(dptr.getType());
   }
 
