@@ -1,0 +1,20 @@
+version: "2"
+services:
+
+  requisition:
+    image: openlmis/dhis2-integration
+    links:
+      - db
+      - log
+    env_file: .env
+
+  db:
+    image: openlmis/postgres:12-debezium
+    ports:
+      - "5432"
+    env_file: .env
+
+  log:
+    image: openlmis/rsyslog:3
+    volumes:
+      - '../logs/dhis2-integration:/var/log'
