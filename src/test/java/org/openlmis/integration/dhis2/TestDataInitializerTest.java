@@ -47,9 +47,9 @@ public class TestDataInitializerTest {
   @Test
   public void shouldLoadData() throws IOException {
     initializer.run();
-    verify(loader).insertToDbFromCsv("dhis2.server", serverResource);
-    verify(loader).insertToDbFromCsv("dhis2.dataset", datasetResource);
-    verify(loader).insertToDbFromCsv("dhis2.data_element", elementResource);
+    verify(loader).insertToDbFromCsv("dhis2.servers", serverResource);
+    verify(loader).insertToDbFromCsv("dhis2.datasets", datasetResource);
+    verify(loader).insertToDbFromCsv("dhis2.data_elements", elementResource);
   }
 
 }

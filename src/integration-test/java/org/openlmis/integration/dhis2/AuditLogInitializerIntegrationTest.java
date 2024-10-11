@@ -73,31 +73,31 @@ public class AuditLogInitializerIntegrationTest {
   };
 
   private static final String INSERT_SERVER_SQL = String.format(
-      "INSERT INTO dhis2.server (%s) VALUES (%s) ",
+      "INSERT INTO dhis2.servers (%s) VALUES (%s) ",
       StringUtils.join(SERVER_FIELDS, ", "),
       StringUtils.repeat("?", ", ", SERVER_FIELDS.length)
   );
 
   private static final String INSERT_DATASET_SQL = String.format(
-      "INSERT INTO dhis2.dataset (%s) VALUES (%s) ",
+      "INSERT INTO dhis2.datasets (%s) VALUES (%s) ",
       StringUtils.join(DATASET_FIELDS, ", "),
       StringUtils.repeat("?", ", ", DATASET_FIELDS.length)
   );
 
   private static final String INSERT_DATAELEMENT_SQL = String.format(
-          "INSERT INTO dhis2.data_element (%s) VALUES (%s) ",
+          "INSERT INTO dhis2.data_elements (%s) VALUES (%s) ",
           StringUtils.join(DATAELEMENT_FIELDS, ", "),
           StringUtils.repeat("?", ", ", DATAELEMENT_FIELDS.length)
   );
 
   private static final String INSERT_FACILITY_SQL = String.format(
-          "INSERT INTO dhis2.shared_facility (%s) VALUES (%s) ",
+          "INSERT INTO dhis2.shared_facilities (%s) VALUES (%s) ",
           StringUtils.join(FACILITY_FIELDS, ", "),
           StringUtils.repeat("?", ", ", FACILITY_FIELDS.length)
   );
 
   private static final String INSERT_SCHEDULE_SQL = String.format(
-          "INSERT INTO dhis2.schedule (%s) VALUES (%s) ",
+          "INSERT INTO dhis2.schedules (%s) VALUES (%s) ",
           StringUtils.join(SCHEDULE_FIELDS, ", "),
           StringUtils.repeat("?", ", ", SCHEDULE_FIELDS.length)
   );

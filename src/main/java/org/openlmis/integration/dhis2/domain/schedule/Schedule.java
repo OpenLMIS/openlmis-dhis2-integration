@@ -35,7 +35,7 @@ import org.openlmis.integration.dhis2.domain.server.Server;
 
 @Entity
 @TypeName("Schedule")
-@Table(name = "schedule", schema = "dhis2")
+@Table(name = "schedules", schema = "dhis2")
 @Getter
 @Setter
 @NoArgsConstructor

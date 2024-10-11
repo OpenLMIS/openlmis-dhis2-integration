@@ -34,7 +34,7 @@ import org.openlmis.integration.dhis2.domain.server.Server;
 
 @Entity
 @TypeName("SharedFacility")
-@Table(name = "shared_facility", schema = "dhis2")
+@Table(name = "shared_facilities", schema = "dhis2")
 @Getter
 @Setter
 @NoArgsConstructor

@@ -45,7 +45,7 @@ public class TestDataInitializer implements CommandLineRunner {
   @Value(value = DEMO_DATA_PATH + "element.csv")
   private Resource dataElementResource;
 
-  private final Resource2Db loader;
+  private Resource2Db loader;
   
   @Autowired
   public TestDataInitializer(JdbcTemplate template) {
@@ -63,9 +63,9 @@ public class TestDataInitializer implements CommandLineRunner {
   public void run(String... args) throws IOException {
     XLOGGER.entry();
 
-    loader.insertToDbFromCsv("dhis2.server", serverResource);
-    loader.insertToDbFromCsv("dhis2.dataset", datasetResource);
-    loader.insertToDbFromCsv("dhis2.data_element", dataElementResource);
+    loader.insertToDbFromCsv("dhis2.servers", serverResource);
+    loader.insertToDbFromCsv("dhis2.datasets", datasetResource);
+    loader.insertToDbFromCsv("dhis2.data_elements", dataElementResource);
 
     XLOGGER.exit();
   }

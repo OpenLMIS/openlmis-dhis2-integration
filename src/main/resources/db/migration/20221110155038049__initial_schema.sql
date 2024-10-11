@@ -1,4 +1,4 @@
-CREATE TABLE server (
+CREATE TABLE servers (
     id UUID NOT NULL,
     name TEXT NOT NULL,
     url TEXT NOT NULL,

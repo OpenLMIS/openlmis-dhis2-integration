@@ -67,7 +67,8 @@ public class PeriodMappingControllerIntegrationTest extends BaseWebIntegrationTe
 
   private final Server server = new ServerDataBuilder().build();
   private final Dataset dataset = new DatasetDataBuilder().withServer(server).build();
-  private final PeriodMapping periodMapping = new PeriodMappingDataBuilder().withDataset(dataset).build();
+  private final PeriodMapping periodMapping = new PeriodMappingDataBuilder()
+      .withDataset(dataset).build();
 
   private final DatasetDto datasetDto = DatasetDto.newInstance(dataset);
   private final PeriodMappingDto periodMappingDto = PeriodMappingDto.newInstance(periodMapping);

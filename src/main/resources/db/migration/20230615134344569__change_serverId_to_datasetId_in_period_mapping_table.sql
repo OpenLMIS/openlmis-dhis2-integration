@@ -1,7 +1,7 @@
-DELETE FROM period_mapping;
+DELETE FROM period_mappings;
 
-ALTER TABLE period_mapping
+ALTER TABLE period_mappings
 DROP CONSTRAINT server_fkey,
 ADD COLUMN datasetId UUID NOT NULL,
-ADD CONSTRAINT dataset_fkey FOREIGN KEY (datasetId) REFERENCES dataset(id),
+ADD CONSTRAINT dataset_fkey FOREIGN KEY (datasetId) REFERENCES datasets(id),
 DROP COLUMN serverId;

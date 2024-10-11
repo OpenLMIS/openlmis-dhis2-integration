@@ -1,2 +1,2 @@
-ALTER TABLE shared_facility
+ALTER TABLE shared_facilities
 ALTER COLUMN orgUnitId TYPE TEXT;

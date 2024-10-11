@@ -1,12 +1,13 @@
 version: "3.3"
 services:
   dhis2-integration:
-    image: openlmis/openlmis-dhis2-integration
+    image: openlmis/dhis2-integration
     links:
       - db
       - log
     ports:
       - "8080"
+      - "5005:5005"
     env_file: .env
   db:
     image: openlmis/postgres:12-debezium
@@ -14,4 +15,4 @@ services:
   log:
     image: openlmis/rsyslog:1
     volumes:
-      - '../logs/openlmis-dhis2-integration:/var/log'
+      - '../logs/dhis2-integration:/var/log'

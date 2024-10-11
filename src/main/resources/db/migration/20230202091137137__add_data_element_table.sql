@@ -1,4 +1,4 @@
-CREATE TABLE data_element (
+CREATE TABLE data_elements (
     id UUID NOT NULL,
     name TEXT UNIQUE NOT NULL,
     source TEXT NOT NULL,
@@ -8,5 +8,5 @@ CREATE TABLE data_element (
     datasetId UUID NOT NULL,
 
     CONSTRAINT data_element_pkey PRIMARY KEY (id),
-    CONSTRAINT dataset_fkey FOREIGN KEY (datasetId) REFERENCES dataset(id)
+    CONSTRAINT dataset_fkey FOREIGN KEY (datasetId) REFERENCES datasets(id)
 );

@@ -43,7 +43,7 @@ import org.openlmis.integration.dhis2.domain.server.Server;
 
 @Entity
 @TypeName("Dataset")
-@Table(name = DATASET, schema = "dhis2")
+@Table(name = "datasets", schema = "dhis2")
 @Getter
 @Setter
 @NoArgsConstructor

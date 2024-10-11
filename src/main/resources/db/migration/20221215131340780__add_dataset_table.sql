@@ -1,7 +1,7 @@
-ALTER TABLE server
+ALTER TABLE servers
 ADD CONSTRAINT server_pkey PRIMARY KEY (id);
 
-CREATE TABLE dataset (
+CREATE TABLE datasets (
     id UUID NOT NULL,
     name TEXT NOT NULL,
     dhisDatasetId TEXT NOT NULL,
@@ -9,5 +9,5 @@ CREATE TABLE dataset (
     serverId UUID NOT NULL,
 
     CONSTRAINT dataset_pkey PRIMARY KEY (id),
-    CONSTRAINT server_fkey FOREIGN KEY (serverId) REFERENCES server(id)
+    CONSTRAINT server_fkey FOREIGN KEY (serverId) REFERENCES servers(id)
 );

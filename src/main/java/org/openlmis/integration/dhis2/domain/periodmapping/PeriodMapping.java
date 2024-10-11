@@ -36,7 +36,7 @@ import org.openlmis.integration.dhis2.domain.dataset.Dataset;
 
 @Entity
 @TypeName("PeriodMapping")
-@Table(name = "period_mapping", schema = "dhis2")
+@Table(name = "period_mappings", schema = "dhis2")
 @Getter
 @Setter
 @NoArgsConstructor(force = true)

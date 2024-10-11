@@ -1,4 +1,4 @@
-CREATE TABLE shared_facility (
+CREATE TABLE shared_facilities (
     id UUID NOT NULL,
     code TEXT NOT NULL,
     facilityId UUID NOT NULL,
@@ -6,5 +6,5 @@ CREATE TABLE shared_facility (
     serverId UUID NOT NULL,
 
     CONSTRAINT shared_facility_pkey PRIMARY KEY (id),
-    CONSTRAINT server_fkey FOREIGN KEY (serverId) REFERENCES server(id)
+    CONSTRAINT server_fkey FOREIGN KEY (serverId) REFERENCES servers(id)
 );

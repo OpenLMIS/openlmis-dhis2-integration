@@ -1,4 +1,4 @@
-CREATE TABLE period_mapping (
+CREATE TABLE period_mappings (
     id UUID NOT NULL,
     name TEXT NOT NULL,
     source TEXT NOT NULL,
@@ -9,5 +9,5 @@ CREATE TABLE period_mapping (
     serverId UUID NOT NULL,
 
     CONSTRAINT period_mapping_pkey PRIMARY KEY (id),
-    CONSTRAINT server_fkey FOREIGN KEY (serverId) REFERENCES server(id)
+    CONSTRAINT server_fkey FOREIGN KEY (serverId) REFERENCES servers(id)
 );
