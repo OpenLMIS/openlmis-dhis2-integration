@@ -1,6 +1,7 @@
 version: "3.3"
 services:
-  dhis2-integration:
+
+  referencedata:
     image: openlmis/dev:10
     ports:
       - "5005:5005"
@@ -9,9 +10,11 @@ services:
       - '.:/app'
       - 'gradlecache:/gradle'
     env_file: .env
+
   db:
     ports:
       - "5432"
+
 volumes:
   gradlecache:
     external: false
