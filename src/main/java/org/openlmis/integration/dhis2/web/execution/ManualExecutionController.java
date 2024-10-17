@@ -42,10 +42,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequestMapping(ManualExecutionController.RESOURCE_PATH)
 public class ManualExecutionController extends BaseController {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ManualExecutionController.class);
-
   public static final String RESOURCE_PATH = API_PATH + "/execute";
-
+  private static final Logger LOGGER = LoggerFactory.getLogger(ManualExecutionController.class);
   @Autowired
   private ProcessedDataExchangeService processedDataExchangeService;
 
@@ -67,8 +65,8 @@ public class ManualExecutionController extends BaseController {
     permissionService.canManageDhisIntegration();
     LOGGER.debug("Running manual execution");
     sharedFacilitySynchronizer.refreshSharedFacilities();
-    scheduleService.getAllSchedules().forEach(
-        schedule -> processedDataExchangeService.sendData(schedule));
+    scheduleService.getAllSchedules()
+        .forEach(schedule -> processedDataExchangeService.sendData(schedule));
   }
 
   /**
@@ -78,17 +76,17 @@ public class ManualExecutionController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   public void runExecution(@RequestParam(value = "serverId") UUID serverId,
                            @RequestParam(value = "datasetId") UUID datasetId,
-                           @RequestParam(value = "periodMappingId",
-                                   required = false) UUID periodMappingId,
+                           @RequestParam(value = "periodMappingId", required = false)
+                               UUID periodMappingId,
                            @RequestBody(required = false) FacilityCodesWrapper facilityCodes) {
     permissionService.canManageDhisIntegration();
     LOGGER.debug("Running manual execution");
     sharedFacilitySynchronizer.refreshSharedFacilities();
 
-    List<Schedule> schedules = scheduleService
-        .getSchedulesByServerAndDatasetId(serverId, datasetId);
-    schedules.forEach(schedule -> processedDataExchangeService
-            .sendData(schedule, periodMappingId, facilityCodes.getFacilityCodes()));
+    List<Schedule> schedules =
+        scheduleService.getSchedulesByServerAndDatasetId(serverId, datasetId);
+    schedules.forEach(schedule -> processedDataExchangeService.sendData(schedule, periodMappingId,
+        facilityCodes != null ? facilityCodes.getFacilityCodes() : null));
   }
 
 }
