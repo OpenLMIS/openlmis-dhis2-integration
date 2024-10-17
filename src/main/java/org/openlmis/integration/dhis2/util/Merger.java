@@ -27,7 +27,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.openlmis.integration.dhis2.dto.referencedata.PageDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
