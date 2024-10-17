@@ -1,0 +1,2 @@
+ALTER TABLE datasets
+ADD COLUMN timeOffset INT NOT NULL;

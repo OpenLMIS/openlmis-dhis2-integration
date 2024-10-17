@@ -1,17 +1,18 @@
-version: "2"
+version: "3.3"
 services:
-  template-service:
-    image: openlmis/template-service
+  dhis2-integration:
+    image: openlmis/dhis2-integration
     links:
       - db
       - log
     ports:
       - "8080"
+      - "5005:5005"
     env_file: .env
   db:
-    image: openlmis/postgres:9.6-debezium
+    image: openlmis/postgres:12-debezium
     env_file: .env
   log:
     image: openlmis/rsyslog:1
     volumes:
-      - '../logs/template-service:/var/log'
+      - '../logs/dhis2-integration:/var/log'

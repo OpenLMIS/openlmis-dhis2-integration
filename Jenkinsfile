@@ -22,7 +22,10 @@ pipeline {
         skipStagesAfterUnstable()
     }
     environment {
-        COMPOSE_PROJECT_NAME = "template${BRANCH_NAME}"
+        COMPOSE_PROJECT_NAME = "dhis2-integration${BRANCH_NAME}"
+    }
+    parameters {
+        string(name: 'contractTestsBranch', defaultValue: 'master', description: 'The branch of contract tests to checkout')
     }
     stages {
         stage('Preparation') {
@@ -101,11 +104,125 @@ pipeline {
                 }
             }
         }
+        stage('Build demo-data') {
+            when {
+                expression {
+                    return CURRENT_BRANCH == 'master'
+                }
+            }
+            steps {
+                build job: "OpenLMIS-3.x-build-demo-data-pipeline"
+            }
+            post {
+                failure {
+                    script {
+                        notifyAfterFailure()
+                    }
+                }
+            }
+        }
+        stage('Deploy to test') {
+            when {
+                expression {
+                    return CURRENT_BRANCH == 'master' && VERSION.endsWith("SNAPSHOT")
+                }
+            }
+            steps {
+                build job: 'OpenLMIS-dhis2-integration-deploy-to-test', wait: false
+            }
+            post {
+                failure {
+                    script {
+                        notifyAfterFailure()
+                    }
+                }
+            }
+        }
+        stage('Parallel: Contract tests') {
+            when {
+                expression {
+                    return VERSION.endsWith("SNAPSHOT")
+                }
+            }
+            parallel {
+                stage('Contract tests') {
+                    steps {
+                        build job: "OpenLMIS-contract-tests-pipeline/${params.contractTestsBranch}", propagate: true, wait: true,
+                        parameters: [
+                            string(name: 'serviceName', value: 'dhis2-integration'),
+                            text(name: 'customEnv', value: "OL_DHIS2_INTEGRATION_VERSION=${STAGING_VERSION}")
+                        ]
+                        build job: "OpenLMIS-contract-tests-pipeline/${params.contractTestsBranch}", propagate: true, wait: true,
+                        parameters: [
+                            string(name: 'serviceName', value: 'cce'),
+                            text(name: 'customEnv', value: "OL_DHIS2_INTEGRATION_VERSION=${STAGING_VERSION}")
+                        ]
+                    }
+                    post {
+                        failure {
+                            script {
+                                notifyAfterFailure()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        stage('ERD generation') {
+            agent {
+                node {
+                    label 'master'
+                }
+            }
+            environment {
+                PATH = "/usr/local/bin/:$PATH"
+            }
+            steps {
+                dir('erd') {
+                    sh(script: "../ci-erdGeneration.sh")
+                    archiveArtifacts artifacts: 'erd-dhis2-integration.zip'
+                }
+            }
+            post {
+                failure {
+                    script {
+                        notifyAfterFailure()
+                    }
+                }
+            }
+        }
+        stage('Push image') {
+            agent any
+            when {
+                expression {
+                    env.GIT_BRANCH =~ /rel-.+/ || (env.GIT_BRANCH == 'master' && !VERSION.endsWith("SNAPSHOT"))
+                }
+            }
+            steps {
+                sh "docker pull openlmis/dhis2-integration:${STAGING_VERSION}"
+                sh "docker tag openlmis/dhis2-integration:${STAGING_VERSION} openlmis/dhis2-integration:${VERSION}"
+                sh "docker push openlmis/dhis2-integration:${VERSION}"
+            }
+            post {
+                success {
+                    script {
+                        if (!VERSION.endsWith("SNAPSHOT")) {
+                            currentBuild.setKeepLog(true)
+                        }
+                    }
+                }
+                failure {
+                    script {
+                        notifyAfterFailure()
+                    }
+                }
+            }
+        }
     }
     post {
         fixed {
             script {
-                BRANCH = "${env.GIT_BRANCH}".trim()
+                BRANCH = "${BRANCH_NAME}"
                 if (BRANCH.equals("master") || BRANCH.startsWith("rel-")) {
                     slackSend color: 'good', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Back to normal"
                 }
@@ -119,7 +236,7 @@ def notifyAfterFailure() {
     if (currentBuild.result == 'UNSTABLE') {
         messageColor = 'warning'
     }
-    BRANCH = "${env.GIT_BRANCH}".trim()
+    BRANCH = "${BRANCH_NAME}"
     if (BRANCH.equals("master") || BRANCH.startsWith("rel-")) {
         slackSend color: "${messageColor}", message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} ${env.STAGE_NAME} ${currentBuild.result} (<${env.BUILD_URL}|Open>)"
     }
