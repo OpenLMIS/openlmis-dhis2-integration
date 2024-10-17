@@ -1,7 +1,7 @@
 version: "2"
 services:
 
-  requisition:
+  dhis2-integration:
     image: openlmis/dhis2-integration
     links:
       - db
