@@ -1,6 +1,6 @@
 {
   "service": {
-    "Name": "dhis2-integration",
+    "Name": "dhis2",
     "Port": 8080,
     "Tags": ["openlmis-service"]
   },
