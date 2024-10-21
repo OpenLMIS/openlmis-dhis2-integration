@@ -1,0 +1,10 @@
+id,name,source,indicator,orderable,element,categoryCombo,datasetId
+10096712-3f32-41da-9819-aee4bc9ab49e,BCG Opening Balance,Requisition,OPENING_BALANCE,BCG,RkJvBfKDu6z,Opening Balance,652e46eb-03e5-41ef-b59b-c2bc5bb7a6b1
+681a523c-b66a-4af2-afb1-d940e77236b1,BCG Received,Requisition,RECEIVED,BCG,RkJvBfKDu6z,Received,652e46eb-03e5-41ef-b59b-c2bc5bb7a6b1
+291807e5-31fb-4c3f-baec-3687d7e065c4,BCG Closing Balance,Requisition,CLOSING_BALANCE,BCG,RkJvBfKDu6z,Closing Balance,652e46eb-03e5-41ef-b59b-c2bc5bb7a6b1
+897cde2a-2ef0-434b-a256-f53c431f6d9e,Polio Opening Balance,Requisition,OPENING_BALANCE,GlaxoSmithKline Polio (20 dose),TKGKvcwuR7v,Opening Balance,652e46eb-03e5-41ef-b59b-c2bc5bb7a6b1
+9f971c22-fc38-488a-9e30-108f45966530,Polio Received,Requisition,RECEIVED,GlaxoSmithKline Polio (20 dose),TKGKvcwuR7v,Received,652e46eb-03e5-41ef-b59b-c2bc5bb7a6b1
+447faa77-3ead-4c52-8341-00bcea9aeebe,Polio Closing Balance,Requisition,CLOSING_BALANCE,GlaxoSmithKline Polio (20 dose),TKGKvcwuR7v,Closing Balance,652e46eb-03e5-41ef-b59b-c2bc5bb7a6b1
+bbca894c-23c8-407d-8e4e-e55a2fc349be,PCV10 Opening Balance,Requisition,OPENING_BALANCE,Synflorix PCV10 (2 dose),S7sI7yDpm0t,Opening Balance,652e46eb-03e5-41ef-b59b-c2bc5bb7a6b1
+07d500f3-41d0-4d8e-b5d8-163131b658f1,PCV10 Received,Requisition,RECEIVED,Synflorix PCV10 (2 dose),S7sI7yDpm0t,Received,652e46eb-03e5-41ef-b59b-c2bc5bb7a6b1
+f87b9703-eed5-4160-8ab8-b76b8a4f3e50,PCV10 Closing Balance,Requisition,CLOSING_BALANCE,Synflorix PCV10 (2 dose),S7sI7yDpm0t,Closing Balance,652e46eb-03e5-41ef-b59b-c2bc5bb7a6b1

@@ -36,7 +36,13 @@ public class TestDataInitializerTest {
   private Resource datasetResource;
 
   @Mock
-  private Resource elementResource;
+  private Resource dataElementResource;
+
+  @Mock
+  private Resource scheduleResource;
+
+  @Mock
+  private Resource sharedFacilityResource;
 
   @Mock
   private Resource2Db loader;
@@ -49,7 +55,9 @@ public class TestDataInitializerTest {
     initializer.run();
     verify(loader).insertToDbFromCsv("dhis2.servers", serverResource);
     verify(loader).insertToDbFromCsv("dhis2.datasets", datasetResource);
-    verify(loader).insertToDbFromCsv("dhis2.data_elements", elementResource);
+    verify(loader).insertToDbFromCsv("dhis2.data_elements", dataElementResource);
+    verify(loader).insertToDbFromCsv("dhis2.schedules", scheduleResource);
+    verify(loader).insertToDbFromCsv("dhis2.shared_facilities", sharedFacilityResource);
   }
 
 }

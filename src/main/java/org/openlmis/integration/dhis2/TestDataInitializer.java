@@ -29,21 +29,27 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("demo-data")
+@Profile("demo-data & !test-run")
 @Order(5)
 public class TestDataInitializer implements CommandLineRunner {
 
   private static final XLogger XLOGGER = XLoggerFactory.getXLogger(TestDataInitializer.class);
   private static final String DEMO_DATA_PATH = "classpath:db/demo-data/";
 
-  @Value(value = DEMO_DATA_PATH + "server.csv")
+  @Value(value = DEMO_DATA_PATH + "dhis2.servers.csv")
   private Resource serverResource;
 
-  @Value(value = DEMO_DATA_PATH + "dataset.csv")
+  @Value(value = DEMO_DATA_PATH + "dhis2.datasets.csv")
   private Resource datasetResource;
 
-  @Value(value = DEMO_DATA_PATH + "element.csv")
+  @Value(value = DEMO_DATA_PATH + "dhis2.data_elements.csv")
   private Resource dataElementResource;
+
+  @Value(value = DEMO_DATA_PATH + "dhis2.schedules.csv")
+  private Resource scheduleResource;
+
+  @Value(value = DEMO_DATA_PATH + "dhis2.shared_facilities.csv")
+  private Resource sharedFacilityResource;
 
   private Resource2Db loader;
   
@@ -66,6 +72,8 @@ public class TestDataInitializer implements CommandLineRunner {
     loader.insertToDbFromCsv("dhis2.servers", serverResource);
     loader.insertToDbFromCsv("dhis2.datasets", datasetResource);
     loader.insertToDbFromCsv("dhis2.data_elements", dataElementResource);
+    loader.insertToDbFromCsv("dhis2.schedules", scheduleResource);
+    loader.insertToDbFromCsv("dhis2.shared_facilities", sharedFacilityResource);
 
     XLOGGER.exit();
   }
