@@ -28,6 +28,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Type;
 import org.javers.core.metamodel.annotation.TypeName;
 import org.openlmis.integration.dhis2.domain.BaseEntity;
 import org.openlmis.integration.dhis2.domain.server.Server;
@@ -49,6 +50,7 @@ public class SharedFacility extends BaseEntity {
 
   @Column(nullable = false)
   @ToString.Include
+  @Type(type = UUID_TYPE)
   private UUID facilityId;
 
   @Column(nullable = false)
