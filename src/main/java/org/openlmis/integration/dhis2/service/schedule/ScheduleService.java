@@ -69,6 +69,17 @@ public class ScheduleService {
   }
 
   /**
+   * Deletes the specified schedule.
+   */
+  private void deleteSchedule(UUID id) {
+    if (!scheduleRepository.existsById(id)) {
+      throw new NotFoundException(MessageKeys.ERROR_SCHEDULE_NOT_FOUND);
+    }
+
+    scheduleRepository.deleteById(id);
+  }
+
+  /**
    * Allows the creation of a new schedule.
    */
   public Schedule createSchedule(DataElement dataElement) {
@@ -89,15 +100,6 @@ public class ScheduleService {
     return newSchedule;
   }
 
-  /**
-   * Deletes the specified schedule.
-   */
-  public void deleteSchedule(UUID id) {
-    if (!scheduleRepository.existsById(id)) {
-      throw new NotFoundException(MessageKeys.ERROR_SCHEDULE_NOT_FOUND);
-    }
 
-    scheduleRepository.deleteById(id);
-  }
 
 }

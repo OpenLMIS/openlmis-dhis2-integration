@@ -16,7 +16,7 @@
 package org.openlmis.integration.dhis2.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.io.Serializable;

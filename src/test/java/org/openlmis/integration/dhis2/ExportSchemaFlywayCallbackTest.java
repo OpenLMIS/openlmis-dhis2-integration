@@ -17,7 +17,7 @@ package org.openlmis.integration.dhis2;
 
 import static org.flywaydb.core.api.callback.Event.AFTER_MIGRATE;
 import static org.flywaydb.core.api.callback.Event.BEFORE_MIGRATE;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
