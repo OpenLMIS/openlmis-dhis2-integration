@@ -34,6 +34,7 @@ ext.set("signing.password", System.getenv("SIGNING_PASSWORD"))
 group = serviceGroup
 version = serviceVersion
 archivesBaseName = rootProject.name
+description = serviceDescription
 project.ext.buildTime = java.time.Instant.now().toString() // for versioning
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
